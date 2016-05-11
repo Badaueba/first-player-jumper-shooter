@@ -19,7 +19,7 @@ public class PlayerControl : MonoBehaviour {
 		jetPackFuel = Mathf.MoveTowards (jetPackFuel, 0, Time.deltaTime);
 		rb.AddForce (new Vector3 (0, jetPackForce, 0));
 		rb.transform.Translate( new Vector3(0, Time.deltaTime * jetPackForce, 0));
-		Debug.Log ("rigdbody : " + rb);
+
 	}
 
 	void OnCollisionStay(Collision col) {
