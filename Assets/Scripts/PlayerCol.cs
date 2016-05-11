@@ -6,9 +6,6 @@ public class PlayerCol : MonoBehaviour {
 
 	
 	void OnTriggerEnter (Collider trig) {
-		if (trig.gameObject.tag == "Coin") {
-			Destroy (trig.gameObject);
-		}
 		if (trig.gameObject.tag == "Obstacle") {
 			StartCoroutine (PlayerDies (1f));
 		}
@@ -18,7 +15,6 @@ public class PlayerCol : MonoBehaviour {
 			finishText.text = "Finished!";
 			Image crosshair = GameObject.Find ("Crosshair").GetComponent<Image> ();
 			crosshair.enabled = false;
-
 			StartCoroutine (PlayerDies (3f));
 		}
 	}
@@ -26,7 +22,11 @@ public class PlayerCol : MonoBehaviour {
 		if (col.gameObject.tag == "Obstacle") {
 			StartCoroutine( PlayerDies(1f));
 		}
+		if (col.gameObject.tag == "Ground") {
+			this.GetComponent<PlayerControl>().onGround = true;
+		}
 	}
+
 	IEnumerator PlayerDies(float seconds) {
 		this.gameObject.GetComponent<PlayerControl> ().enabled = false;
 		this.gameObject.GetComponent<PlayerMove> ().enabled = false;

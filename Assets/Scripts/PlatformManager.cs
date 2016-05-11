@@ -20,7 +20,7 @@ public class PlatformManager : MonoBehaviour {
 			if ( zPosition < reference.position.z)  {
 				Vector3 pos = new Vector3 (0, 0, t.position.z + (plataforms.Length * t.localScale.z));
 				int rand = Random.Range(0, plataforms.Length);
-				Instantiate(plataforms[rand], pos, Quaternion.identity);
+				Instantiate(plataforms[rand], pos, plataforms[rand].rotation);
 				Destroy(this.gameObject);
 			}
 			yield return new WaitForEndOfFrame();

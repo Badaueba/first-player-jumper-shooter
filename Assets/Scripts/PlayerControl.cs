@@ -2,32 +2,23 @@
 using System.Collections;
 
 public class PlayerControl : MonoBehaviour {
-
-	public float jetPackFuel; 
-	public float jetPackForce;
-	public Rigidbody rb;
-
-	void Update () {
-		if (Input.GetButton ("Jump") || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) ) {
-			if (jetPackFuel > 0)
-				BoostUp ();
-		} 
-
+ 
+	public float jumpForce;
+	public bool onGround = true;
+	Rigidbody rigidBody;
+	void Awake() {
+		rigidBody = GetComponent<Rigidbody> ();
 	}
-
-	void BoostUp () {
-		jetPackFuel = Mathf.MoveTowards (jetPackFuel, 0, Time.deltaTime);
-		rb.AddForce (new Vector3 (0, jetPackForce, 0));
-		rb.transform.Translate( new Vector3(0, Time.deltaTime * jetPackForce, 0));
-
-	}
-
-	void OnCollisionStay(Collision col) {
-		if (col.gameObject.tag == "Ground") {
-			if (jetPackFuel < 1.5f  ) {
-				jetPackFuel = Mathf.MoveTowards(jetPackFuel, 1.5f, Time.fixedDeltaTime);
-			}
+	void FixedUpdate () {
+		if (Input.GetButton ("Jump") || 
+			(Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began)) {
+			if (onGround) 
+				Jump ();
 		}
+	}
+	void Jump () {
+		rigidBody.AddForce (Vector3.up * jumpForce, ForceMode.Impulse);
+		onGround = false;
 	}
 
 }

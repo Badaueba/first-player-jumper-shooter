@@ -3,17 +3,20 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour {
 	public int playerSpeed;
-	public Rigidbody rb;
-	public float zSpeed = 10f;
-	
+	Rigidbody rigidBody;
+
+	void Awake() {
+		rigidBody = GetComponent<Rigidbody> ();
+	}
 	void Update () {
-		float z = Input.GetAxis ("Horizontal");
-		if (z != 0.00f)
-			LeftAndRight (z);
 		gameObject.transform.Translate (Vector3.right * playerSpeed * Time.deltaTime);
+
+		float axis = Input.GetAxis ("Horizontal");
+		if (axis != 0.00f)
+			LeftAndRight (axis);
 	}
 
 	void LeftAndRight (float z) {
-		rb.transform.Translate (new Vector3 (0, 0, -z * zSpeed * Time.deltaTime));
+		rigidBody.transform.Translate (new Vector3 (0, 0, -z * playerSpeed * Time.deltaTime));
 	}
 }
