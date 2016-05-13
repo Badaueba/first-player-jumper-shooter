@@ -8,8 +8,8 @@ public class PlatformManager : MonoBehaviour {
 	private Transform[] plataforms;
 	Transform t;
 	void Start() {
-		plataforms = GameObject.FindObjectOfType<PlatformSpawner> ().platforms;
-		reference = Transform.FindObjectOfType<PlayerControl> ().transform;
+		plataforms = GameObject.FindObjectOfType<PlatformSpawner> ().GetCurrentPlatforms();
+		reference = Transform.FindObjectOfType<PlayerJump> ().transform;
 		t = this.GetComponent<Transform> ();
 		StartCoroutine (Change ());
 	}

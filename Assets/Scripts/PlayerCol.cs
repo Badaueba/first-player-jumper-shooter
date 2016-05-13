@@ -4,18 +4,16 @@ using System.Collections;
 
 public class PlayerCol : MonoBehaviour {
 
-	
+	ScoreFeedBack scoreFeedback;
+
+	public bool isDead;
+	public bool isGrounded;
+	void Awake() {
+		scoreFeedback = GameObject.FindObjectOfType<ScoreFeedBack> ();
+	}
 	void OnTriggerEnter (Collider trig) {
 		if (trig.gameObject.tag == "Obstacle") {
 			StartCoroutine (PlayerDies (1f));
-		}
-		if (trig.gameObject.tag == "End") {
-			Debug.Log ("End");
-			Text finishText = GameObject.Find ("Feedback").GetComponent<Text> ();
-			finishText.text = "Finished!";
-			Image crosshair = GameObject.Find ("Crosshair").GetComponent<Image> ();
-			crosshair.enabled = false;
-			StartCoroutine (PlayerDies (3f));
 		}
 	}
 	void OnCollisionEnter (Collision col) {
@@ -23,14 +21,20 @@ public class PlayerCol : MonoBehaviour {
 			StartCoroutine( PlayerDies(1f));
 		}
 		if (col.gameObject.tag == "Ground") {
-			this.GetComponent<PlayerControl>().onGround = true;
+			isGrounded = true;
 		}
 	}
 
-	IEnumerator PlayerDies(float seconds) {
-		this.gameObject.GetComponent<PlayerControl> ().enabled = false;
-		this.gameObject.GetComponent<PlayerMove> ().enabled = false;
+	public IEnumerator PlayerDies(float seconds) {
+		scoreFeedback.feedbackMessage.text = "Restarting...";
+		DisablePlayer ();
+
+		isDead = true;
 		yield return new WaitForSeconds (seconds);
 		Application.LoadLevel (0);
+	}
+	public void DisablePlayer() {
+		this.gameObject.GetComponent<PlayerJump> ().enabled = false;
+		this.gameObject.GetComponent<PlayerMove> ().enabled = false;
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+
 public class PlayerMove : MonoBehaviour {
 	public int playerSpeed;
 	Rigidbody rigidBody;
@@ -10,13 +12,13 @@ public class PlayerMove : MonoBehaviour {
 	}
 	void Update () {
 		gameObject.transform.Translate (Vector3.right * playerSpeed * Time.deltaTime);
-
-		float axis = Input.GetAxis ("Horizontal");
-		if (axis != 0.00f)
-			LeftAndRight (axis);
+		Vector3 delta = Vector3.zero;
+	
+		delta.z = Input.GetAxis ("Horizontal");
+		LeftAndRight (-delta);
 	}
 
-	void LeftAndRight (float z) {
-		rigidBody.transform.Translate (new Vector3 (0, 0, -z * playerSpeed * Time.deltaTime));
+	void LeftAndRight (Vector3 delta) {
+		rigidBody.transform.Translate (delta * playerSpeed * Time.deltaTime);
 	}
 }
